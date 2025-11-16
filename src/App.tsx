@@ -1,7 +1,7 @@
 import { App as AntApp } from 'antd'
 import { Suspense } from 'react'
-import AppRoutes from './routes'
 import Loader from './components/common/Loader'
+import { AppRoutes } from './routes/AppRoutes'
 
 const App = () => {
   return (
