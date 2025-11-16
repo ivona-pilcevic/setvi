@@ -3,6 +3,10 @@ import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
 import App from './App'
+import { ThemeProvider } from 'styled-components'
+import { theme } from './styles/theme'
+import { GlobalStyle } from './styles/GlobalStyle'
+import { antdTheme } from './styles/antdTheme'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,10 +19,13 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ConfigProvider>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </ConfigProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <ConfigProvider theme={antdTheme}>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </ConfigProvider>
+    </ThemeProvider>
   </StrictMode>
 )
