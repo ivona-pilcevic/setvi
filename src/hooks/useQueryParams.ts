@@ -8,6 +8,7 @@ export interface IUseQueryParamsResult {
   params: IQueryParams
   debouncedParams: IQueryParams
   setSearch: (next: string | null) => void
+  setCategory: (next: string | null) => void
   setLimit: (next: number | null) => void
   setSkip: (next: number | null) => void
   setParams: (next: IQueryParams) => void
@@ -19,6 +20,7 @@ export const useQueryParams = (): IUseQueryParamsResult => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const q = searchParams.get('q') || null
+  const category = searchParams.get('category') || null
   const limitParam = searchParams.get('limit')
   const limit = limitParam ? Number.parseInt(limitParam, 10) : DEFAULT_LIMIT
   const skipParam = searchParams.get('skip')
@@ -27,10 +29,11 @@ export const useQueryParams = (): IUseQueryParamsResult => {
   const params: IQueryParams = useMemo(
     () => ({
       q,
+      category,
       limit,
       skip
     }),
-    [q, limit, skip]
+    [q, category, limit, skip]
   )
 
   const debouncedParams: IQueryParams = useDebounce(params, DEBOUNCE_DELAY)
@@ -45,6 +48,14 @@ export const useQueryParams = (): IUseQueryParamsResult => {
             newParams.delete('q')
           } else {
             newParams.set('q', next.q)
+          }
+        }
+
+        if (next.category !== undefined) {
+          if (next.category === null || next.category === '') {
+            newParams.delete('category')
+          } else {
+            newParams.set('category', next.category)
           }
         }
 
@@ -73,6 +84,13 @@ export const useQueryParams = (): IUseQueryParamsResult => {
   const setSearch = useCallback(
     (next: string | null) => {
       setParams({ q: next, skip: DEFAULT_SKIP })
+    },
+    [setParams]
+  )
+
+  const setCategory = useCallback(
+    (next: string | null) => {
+      setParams({ category: next, skip: DEFAULT_SKIP })
     },
     [setParams]
   )
@@ -109,6 +127,7 @@ export const useQueryParams = (): IUseQueryParamsResult => {
     params,
     debouncedParams,
     setSearch,
+    setCategory,
     setLimit,
     setSkip,
     setParams,

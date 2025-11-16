@@ -1,5 +1,6 @@
 export interface ISearchParams {
   q?: string | null
+  category?: string | null
 }
 
 export interface IPaginateParams {
