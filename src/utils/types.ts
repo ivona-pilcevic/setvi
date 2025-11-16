@@ -7,4 +7,4 @@ export interface IPaginateParams {
   skip?: number | null
 }
 
-export interface ITableParams extends ISearchParams, IPaginateParams {}
+export interface IQueryParams extends ISearchParams, IPaginateParams {}

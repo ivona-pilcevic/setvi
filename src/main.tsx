@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components'
 import { theme } from './styles/theme'
 import { GlobalStyle } from './styles/GlobalStyle'
 import { antdTheme } from './styles/antdTheme'
+import { BrowserRouter } from 'react-router-dom'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +24,9 @@ createRoot(document.getElementById('root')!).render(
       <GlobalStyle />
       <ConfigProvider theme={antdTheme}>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </QueryClientProvider>
       </ConfigProvider>
     </ThemeProvider>

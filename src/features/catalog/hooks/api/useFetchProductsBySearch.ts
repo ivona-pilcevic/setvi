@@ -1,26 +1,26 @@
 import { useQuery } from '@tanstack/react-query'
 import { axiosInt } from '../../../../utils/axios'
-import type { ITableParams } from '../../../../utils/types'
+import type { IQueryParams } from '../../../../utils/types'
 import { API_BASE_URL } from '../../../../utils/urls'
-import type { IPaginatedProducts } from './useFetchProducts'
+import type { IPaginatedProducts } from '../../utils/types'
 
 export const FETCH_PRODUCTS_BY_SEARCH_KEY = 'fetchProductsBySearch'
 export const fetchProductsBySearchApi = async (
-  params?: ITableParams
+  params?: IQueryParams
 ): Promise<IPaginatedProducts> => {
   const response = await axiosInt.get(`${API_BASE_URL}/products/search`, { params })
   return response.data
 }
 
-export const useFetchProductsBySearch = (params?: ITableParams) => {
+export const useFetchProductsBySearch = (params?: IQueryParams) => {
   const {
-    data: productsBySearch,
-    isLoading: isLoadingProductsBySearch,
-    error: errorFetchingProductsBySearch
+    data: paginatedProducts,
+    isLoading: isLoadingProducts,
+    error: errorFetchingProducts
   } = useQuery<IPaginatedProducts>({
     queryKey: [FETCH_PRODUCTS_BY_SEARCH_KEY, params],
     queryFn: () => fetchProductsBySearchApi(params),
     placeholderData: (prev) => prev
   })
-  return { productsBySearch, isLoadingProductsBySearch, errorFetchingProductsBySearch }
+  return { paginatedProducts, isLoadingProducts, errorFetchingProducts }
 }
