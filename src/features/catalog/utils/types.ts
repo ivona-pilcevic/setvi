@@ -41,3 +41,16 @@ export interface IProductMeta {
   barcode: string
   qrCode: string
 }
+
+export interface IProductCategory {
+  name: string
+  slug: string
+  url: string
+}
+
+export interface IPaginatedProducts {
+  products: IProduct[]
+  total: number
+  skip: number
+  limit: number
+}

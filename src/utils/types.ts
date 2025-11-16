@@ -1,7 +1,5 @@
-import type { IProduct } from '../features/catalog/utils/types'
-
 export interface ISearchParams {
-  search?: string | null
+  q?: string | null
 }
 
 export interface IPaginateParams {
@@ -10,12 +8,3 @@ export interface IPaginateParams {
 }
 
 export interface ITableParams extends ISearchParams, IPaginateParams {}
-
-export interface IPaginatedProducts {
-  products: IProduct[]
-  meta: {
-    total: number
-    skip: number
-    limit: number
-  }
-}

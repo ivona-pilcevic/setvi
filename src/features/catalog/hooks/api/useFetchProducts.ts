@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { axiosInt } from '../../../utils/axios'
-import type { IPaginatedProducts, ITableParams } from '../../../utils/types'
-import { API_BASE_URL } from '../../../utils/urls'
+import { axiosInt } from '../../../../utils/axios'
+import type { ITableParams } from '../../../../utils/types'
+import { API_BASE_URL } from '../../../../utils/urls'
+import type { IPaginatedProducts } from '../../utils/types'
 
 export const FETCH_PRODUCTS_KEY = 'fetchProducts'
 export const fetchProductsApi = async (params?: ITableParams): Promise<IPaginatedProducts> => {
