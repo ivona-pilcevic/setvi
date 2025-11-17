@@ -2,10 +2,14 @@ import { Spin } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 
-const Loader: React.FC = () => {
+interface IProps {
+  size?: 'small' | 'default' | 'large'
+}
+
+const Loader: React.FC<IProps> = ({ size = 'large' }) => {
   return (
     <Container>
-      <Spin size="large" />
+      <Spin size={size} />
     </Container>
   )
 }

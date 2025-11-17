@@ -5,6 +5,8 @@ import { useQueryParams } from '../../../hooks/useQueryParams'
 import Loader from '../../../components/common/Loader'
 import { useFetchProductCategories } from '../hooks/api/useFetchProductCategories'
 import { useFetchProductsInfinite } from '../hooks/api/useFetchProductsInfinite'
+import ProductsVirtualTable from '../components/ProductsVirtualTable'
+import type { IProduct } from '../utils/types'
 
 const { Content } = Layout
 const { Title } = Typography
@@ -22,6 +24,10 @@ const CatalogPage = () => {
     } else {
       setCategory(value)
     }
+  }
+
+  const handleRowClick = (product: IProduct) => {
+    console.log('clicked:', product.id)
   }
 
   const allProducts = data?.pages.flatMap((page) => page.products) ?? []
@@ -57,7 +63,15 @@ const CatalogPage = () => {
           </Select>
         </FiltersContainer>
       </HeaderSection>
-      <Content>{/* TODO: Table */}</Content>
+      <Content>
+        <ProductsVirtualTable
+          products={allProducts}
+          onRowClick={handleRowClick}
+          hasNextPage={!!hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          onFetchNextPage={fetchNextPage}
+        />
+      </Content>
     </StyledLayout>
   )
 }
