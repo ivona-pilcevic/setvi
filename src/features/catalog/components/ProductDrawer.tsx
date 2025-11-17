@@ -1,4 +1,5 @@
-import { Drawer, Tag, Divider } from 'antd'
+import { useState } from 'react'
+import { Drawer, Tag, Divider, Button } from 'antd'
 import styled from 'styled-components'
 import Loader from '../../../components/common/Loader'
 import { useFetchProductDetails } from '../hooks/api/useFetchProductDetails'
@@ -10,9 +11,14 @@ interface IProps {
   onClose: () => void
 }
 
-const ProductDrawer = ({ productId, open, onClose }: IProps) => {
+const ProductDrawer: React.FC<IProps> = ({ productId, open, onClose }) => {
   const { productDetails, isLoadingProductDetails, errorFetchingProductDetails } =
     useFetchProductDetails(productId ?? undefined)
+  const [showSummary, setShowSummary] = useState(false)
+
+  const handleGenerateSummary = () => {
+    setShowSummary(true)
+  }
 
   if (isLoadingProductDetails) return <Loader />
   if (!productDetails || errorFetchingProductDetails)
@@ -54,6 +60,17 @@ const ProductDrawer = ({ productId, open, onClose }: IProps) => {
             </Section>
           </>
         )}
+        <Divider />
+        <Section>
+          <Label>AI Summary</Label>
+          {!showSummary ? (
+            <Button type="primary" onClick={handleGenerateSummary}>
+              Generate Summary
+            </Button>
+          ) : (
+            <SummaryPlaceholder>{/* TODO */}</SummaryPlaceholder>
+          )}
+        </Section>
       </Content>
     </Drawer>
   )
@@ -133,4 +150,9 @@ const TagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.xs};
+`
+
+const SummaryPlaceholder = styled.div`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.body};
 `
