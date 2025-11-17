@@ -16,8 +16,12 @@ const CatalogPage = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchProductsInfinite(debouncedParams)
 
-  const handleCategoryChange = (value: string | null) => {
-    setCategory(value)
+  const handleCategoryChange = (value: string | null | undefined) => {
+    if (value === undefined || value === null || value === '') {
+      setCategory(null)
+    } else {
+      setCategory(value)
+    }
   }
 
   const allProducts = data?.pages.flatMap((page) => page.products) ?? []
@@ -40,7 +44,7 @@ const CatalogPage = () => {
           <Select
             placeholder="Select category"
             allowClear
-            value={params.category}
+            onClear={() => handleCategoryChange(null)}
             onChange={handleCategoryChange}
             loading={isLoadingProductCategories}
             style={{ minWidth: 200 }}
