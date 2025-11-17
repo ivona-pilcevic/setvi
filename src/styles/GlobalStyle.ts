@@ -59,4 +59,16 @@ export const GlobalStyle = createGlobalStyle`
     font-family: inherit;
     font-size: inherit;
   }
+
+  .ant-btn-icon {
+    color: #FFFFFF !important;
+  }
+
+  .ant-select-arrow {
+    color: #FFFFFF !important;
+  }
+
+  .ant-select-clear {
+    color: #FFFFFF !important;
+  }
 `

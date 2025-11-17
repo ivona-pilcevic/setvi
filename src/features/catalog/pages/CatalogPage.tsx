@@ -1,13 +1,20 @@
-import { Layout, Input, Typography } from 'antd'
+import { Layout, Input, Typography, Select } from 'antd'
 import styled from 'styled-components'
+
 import { useQueryParams } from '../../../hooks/useQueryParams'
+import { useFetchProductCategories } from '../hooks/api/useFetchProductCategories'
 
 const { Content } = Layout
 const { Title } = Typography
 const { Search } = Input
 
 const CatalogPage = () => {
-  const { params, handleSearchChange } = useQueryParams()
+  const { params, handleSearchChange, setCategory } = useQueryParams()
+  const { productCategories, isLoadingProductCategories } = useFetchProductCategories()
+
+  const handleCategoryChange = (value: string | null) => {
+    setCategory(value)
+  }
 
   return (
     <StyledLayout>
@@ -20,6 +27,20 @@ const CatalogPage = () => {
             value={params.q || ''}
             onChange={handleSearchChange}
           />
+          <Select
+            placeholder="Select category"
+            allowClear
+            value={params.category}
+            onChange={handleCategoryChange}
+            loading={isLoadingProductCategories}
+            style={{ minWidth: 200 }}
+          >
+            {productCategories?.map((cat) => (
+              <Select.Option key={cat.slug} value={cat.slug}>
+                {cat.name}
+              </Select.Option>
+            ))}
+          </Select>
         </FiltersContainer>
       </HeaderSection>
       <Content>{/* TODO: Table */}</Content>

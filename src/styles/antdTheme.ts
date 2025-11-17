@@ -24,7 +24,8 @@ export const antdTheme: ThemeConfig = {
       colorText: '#FFFFFF',
       colorTextPlaceholder: '#718096',
       activeBorderColor: '#00D4FF',
-      hoverBorderColor: '#00D4FF'
+      hoverBorderColor: '#00D4FF',
+      colorIcon: '#FFFFFF'
     },
     Button: {
       colorBgContainer: '#1A1F3A',
@@ -46,6 +47,15 @@ export const antdTheme: ThemeConfig = {
       colorText: '#FFFFFF',
       colorTextHeading: '#FFFFFF',
       colorBgContainer: '#1A1F3A'
+    },
+    Select: {
+      colorBgContainer: '#1A1F3A',
+      colorBorder: '#2D3748',
+      colorText: '#FFFFFF',
+      colorTextPlaceholder: '#718096',
+      activeBorderColor: '#00D4FF',
+      hoverBorderColor: '#00D4FF',
+      colorIcon: '#FFFFFF'
     }
   }
 }
