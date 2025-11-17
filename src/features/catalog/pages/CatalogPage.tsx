@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout, Input, Typography, Select, Drawer } from 'antd'
+import { Layout, Input, Typography, Select } from 'antd'
 import styled from 'styled-components'
 
 import { useQueryParams } from '../../../hooks/useQueryParams'
@@ -8,6 +8,7 @@ import { useToggleVisibility } from '../../../hooks/useToggleVisibility'
 import { useFetchProductCategories } from '../hooks/api/useFetchProductCategories'
 import { useFetchProductsInfinite } from '../hooks/api/useFetchProductsInfinite'
 import ProductsVirtualTable from '../components/ProductsVirtualTable'
+import ProductDrawer from '../components/ProductDrawer'
 import type { IProduct } from '../utils/types'
 
 const { Content } = Layout
@@ -78,9 +79,7 @@ const CatalogPage = () => {
           onFetchNextPage={fetchNextPage}
         />
       </Content>
-      <Drawer open={drawer.isVisible} onClose={drawer.hide} width={600} title="Product Details">
-        {/* TODO: add product details */}
-      </Drawer>
+      <ProductDrawer productId={selectedProductId} open={drawer.isVisible} onClose={drawer.hide} />
     </StyledLayout>
   )
 }
