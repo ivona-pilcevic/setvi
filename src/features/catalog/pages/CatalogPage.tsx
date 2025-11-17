@@ -2,18 +2,28 @@ import { Layout, Input, Typography, Select } from 'antd'
 import styled from 'styled-components'
 
 import { useQueryParams } from '../../../hooks/useQueryParams'
+import Loader from '../../../components/common/Loader'
 import { useFetchProductCategories } from '../hooks/api/useFetchProductCategories'
+import { useFetchProductsInfinite } from '../hooks/api/useFetchProductsInfinite'
 
 const { Content } = Layout
 const { Title } = Typography
 const { Search } = Input
 
 const CatalogPage = () => {
-  const { params, handleSearchChange, setCategory } = useQueryParams()
+  const { params, debouncedParams, handleSearchChange, setCategory } = useQueryParams()
   const { productCategories, isLoadingProductCategories } = useFetchProductCategories()
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useFetchProductsInfinite(debouncedParams)
 
   const handleCategoryChange = (value: string | null) => {
     setCategory(value)
+  }
+
+  const allProducts = data?.pages.flatMap((page) => page.products) ?? []
+
+  if (isLoading) {
+    return <Loader />
   }
 
   return (
