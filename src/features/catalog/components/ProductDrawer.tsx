@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import Loader from '../../../components/common/Loader'
 import { useFetchProductDetails } from '../hooks/api/useFetchProductDetails'
 import ErrorMessage from '../../../components/common/ErrorMessage'
+import { useFetchQuotes } from '../../typewriter/hooks/api/useFetchQuotes'
+import { mergeQuotes } from '../../typewriter/utils/mergeQuotes'
+import Typewriter from '../../typewriter/components/Typewriter'
 
 interface IProps {
   productId: number | null
@@ -14,11 +17,14 @@ interface IProps {
 const ProductDrawer: React.FC<IProps> = ({ productId, open, onClose }) => {
   const { productDetails, isLoadingProductDetails, errorFetchingProductDetails } =
     useFetchProductDetails(productId ?? undefined)
+  const { quotes, isLoadingQuotes } = useFetchQuotes()
   const [showSummary, setShowSummary] = useState(false)
 
   const handleGenerateSummary = () => {
     setShowSummary(true)
   }
+
+  const summaryText = quotes?.quotes ? mergeQuotes(quotes.quotes) : ''
 
   if (isLoadingProductDetails) return <Loader />
   if (!productDetails || errorFetchingProductDetails)
@@ -64,11 +70,11 @@ const ProductDrawer: React.FC<IProps> = ({ productId, open, onClose }) => {
         <Section>
           <Label>AI Summary</Label>
           {!showSummary ? (
-            <Button type="primary" onClick={handleGenerateSummary}>
+            <Button type="primary" onClick={handleGenerateSummary} loading={isLoadingQuotes}>
               Generate Summary
             </Button>
           ) : (
-            <SummaryPlaceholder>{/* TODO */}</SummaryPlaceholder>
+            <SummaryContainer>{summaryText && <Typewriter text={summaryText} />}</SummaryContainer>
           )}
         </Section>
       </Content>
@@ -152,7 +158,8 @@ const TagsContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `
 
-const SummaryPlaceholder = styled.div`
-  color: ${({ theme }) => theme.colors.textSecondary};
+const SummaryContainer = styled.div`
+  color: ${({ theme }) => theme.colors.textPrimary};
   font-size: ${({ theme }) => theme.typography.fontSize.body};
+  line-height: ${({ theme }) => theme.typography.lineHeight.body};
 `
