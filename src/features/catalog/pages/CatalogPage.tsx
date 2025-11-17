@@ -1,17 +1,25 @@
 import { Layout, Input, Typography } from 'antd'
 import styled from 'styled-components'
+import { useQueryParams } from '../../../hooks/useQueryParams'
 
 const { Content } = Layout
 const { Title } = Typography
 const { Search } = Input
 
 const CatalogPage = () => {
+  const { params, handleSearchChange } = useQueryParams()
+
   return (
     <StyledLayout>
       <HeaderSection>
         <Title level={2}>Product Catalog</Title>
         <FiltersContainer>
-          <Search placeholder="Search products..." allowClear />
+          <Search
+            placeholder="Search products..."
+            allowClear
+            value={params.q || ''}
+            onChange={handleSearchChange}
+          />
         </FiltersContainer>
       </HeaderSection>
       <Content>{/* TODO: Table */}</Content>
