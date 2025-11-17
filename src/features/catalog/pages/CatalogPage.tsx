@@ -1,8 +1,10 @@
-import { Layout, Input, Typography, Select } from 'antd'
+import { useState } from 'react'
+import { Layout, Input, Typography, Select, Drawer } from 'antd'
 import styled from 'styled-components'
 
 import { useQueryParams } from '../../../hooks/useQueryParams'
 import Loader from '../../../components/common/Loader'
+import { useToggleVisibility } from '../../../hooks/useToggleVisibility'
 import { useFetchProductCategories } from '../hooks/api/useFetchProductCategories'
 import { useFetchProductsInfinite } from '../hooks/api/useFetchProductsInfinite'
 import ProductsVirtualTable from '../components/ProductsVirtualTable'
@@ -18,6 +20,9 @@ const CatalogPage = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchProductsInfinite(debouncedParams)
 
+  const drawer = useToggleVisibility()
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
+
   const handleCategoryChange = (value: string | null | undefined) => {
     if (value === undefined || value === null || value === '') {
       setCategory(null)
@@ -27,7 +32,8 @@ const CatalogPage = () => {
   }
 
   const handleRowClick = (product: IProduct) => {
-    console.log('clicked:', product.id)
+    setSelectedProductId(product.id)
+    drawer.show()
   }
 
   const allProducts = data?.pages.flatMap((page) => page.products) ?? []
@@ -72,6 +78,9 @@ const CatalogPage = () => {
           onFetchNextPage={fetchNextPage}
         />
       </Content>
+      <Drawer open={drawer.isVisible} onClose={drawer.hide} width={600} title="Product Details">
+        {/* TODO: add product details */}
+      </Drawer>
     </StyledLayout>
   )
 }
